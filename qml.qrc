@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>test.png</file>
+        <file>MyImage.qml</file>
+        <file>0.PNG</file>
+        <file>1.PNG</file>
+        <file>2.PNG</file>
+        <file>123.jpg</file>
+        <file>default.PNG</file>
+    </qresource>
+</RCC>
