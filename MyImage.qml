@@ -46,13 +46,13 @@ Item {
         fillMode:Image.PreserveAspectFit
     }
 
-    Image {
-        id: defaultImage
-        width: imageWidth
-        height: imageHeight
-        //        source: defaultImagePath
-        fillMode:Image.PreserveAspectFit
-    }
+//    Image {
+//        id: defaultImage
+//        width: imageWidth
+//        height: imageHeight
+//        //        source: defaultImagePath
+//        fillMode:Image.PreserveAspectFit
+//    }
 
     Image {
         id: validCheckImage
@@ -122,6 +122,8 @@ Item {
     function setCurrentImage(imgPath)
     {
         console.log("setCurrentImage(" , imgPath , ")")
+        initImage()
+
 
         if ( true === isImagePathEnable(imgPath) )
         {
@@ -156,7 +158,8 @@ Item {
                 targetImage2.source = currentImagePath
             }
 
-            initNextImage()
+//            initNextImage()
+
         }
     }
 
@@ -208,47 +211,65 @@ Item {
         //opacity
 
         animationTest()
-        nameChanged()
+//        nameChanged()
     }
     function animationTest()
     {
         //        first -> secont
-        testTimer.running = true
-
+        //        testTimer.running = true
+        nameChanged()
+        target1Ani.start()
+        target2Ani.start()
 
     }
 
-    Timer
-    {
-        id: testTimer
-        interval: 100
-        running : false
-        repeat: true
-        onTriggered:{
+    //    Timer
+    //    {
+    //        id: testTimer
+    //        interval: 100
+    //        running : false
+    //        repeat: true
+    //        onTriggered:{
 
 
-            if ( firstViewState === currentState)
-            {
-                targetImage1.opacity -= 0.1
-                targetImage2.opacity += 0.1
-                if (targetImage1.opacity < 0)
-                {
-                    stop()
-                    console.log("timer end")
-                }
+    //            if ( firstViewState === currentState)
+    //            {
+    //                targetImage1.opacity -= 0.1
+    //                targetImage2.opacity += 0.1
+    //                if (targetImage1.opacity < 0)
+    //                {
+    //                    stop()
+    //                    console.log("timer end")
+    //                }
 
-            }
-            else
-            {
-                targetImage1.opacity += 0.1
-                targetImage2.opacity -= 0.1
-                if (targetImage2.opacity < 0)
-                {
-                    stop()
-                    console.log("timer end")
-                }
-            }
-        }
+    //            }
+    //            else
+    //            {
+    //                targetImage1.opacity += 0.1
+    //                targetImage2.opacity -= 0.1
+    //                if (targetImage2.opacity < 0)
+    //                {
+    //                    stop()
+    //                    console.log("timer end")
+    //                }
+    //            }
+    //        }
+    //    }
+    PropertyAnimation{
+        id: target1Ani
+        target:getCurrentImage()
+        properties: "opacity"
+        from: 1
+        to:0
+        duration: 2000
+    }
+    PropertyAnimation{
+        id: target2Ani
+        target:getNextImage()
+        properties: "opacity"
+        from: 0
+        to:1
+        duration: 2000
     }
 
 
@@ -324,5 +345,29 @@ Item {
         targetImage2.opacity = 1
         firstViewState  = currentState
         secontViewState = nextState
+    }
+
+    function getCurrentImage()
+    {
+        if (firstViewState === currentState)
+        {
+            return targetImage1
+        }
+        else
+        {
+            return targetImage2
+        }
+    }
+
+    function getNextImage()
+    {
+        if (firstViewState === nextState)
+        {
+            return targetImage1
+        }
+        else
+        {
+            return targetImage2
+        }
     }
 }
