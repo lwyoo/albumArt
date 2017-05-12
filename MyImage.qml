@@ -16,7 +16,8 @@ Item {
     property string nextImagePath       : ""
     property real imageWidth    :200
     property real imageHeight   :200
-
+    width:imageWidth
+    height: imageHeight
 
     readonly property int currentState : 0
     readonly property int nextState : 1
@@ -24,16 +25,12 @@ Item {
     property int firstViewState  :currentState
     property int secontViewState :nextState
 
-    //animation Control
     property bool enableAni: true
 
     Image {
         id: targetImage1
         width: imageWidth
         height: imageHeight
-        opacity: 1
-        //        source: currentImagePath
-
         fillMode:Image.PreserveAspectFit
     }
 
@@ -41,18 +38,8 @@ Item {
         id: targetImage2
         width: imageWidth
         height: imageHeight
-        opacity: 0
-        //        source: nextImagePath
         fillMode:Image.PreserveAspectFit
     }
-
-//    Image {
-//        id: defaultImage
-//        width: imageWidth
-//        height: imageHeight
-//        //        source: defaultImagePath
-//        fillMode:Image.PreserveAspectFit
-//    }
 
     Image {
         id: validCheckImage
@@ -82,6 +69,7 @@ Item {
 
     function setDefaultImage(imgPath)
     {
+        initImage()
         if (imgPath === null )
         {
             console.log("defaultImagePat is NULL")
@@ -157,49 +145,45 @@ Item {
                 currentImagePath = defaultImagePath
                 targetImage2.source = currentImagePath
             }
-
-//            initNextImage()
-
         }
     }
 
     function setNextImage(imgPath)
     {
+        target1Ani.complete()
+        target2Ani.complete()
         console.log("setNextImage(",imgPath,")")
-        if (imgPath === null )
-        {
-            console.log("setNextImage is NULL")
-        }
-
-        if (imgPath === undefined)
-        {
-            console.log("setNextImage is undefined")
-        }
 
         if (imgPath === "" || imgPath === undefined || imgPath === null )
         {
+            console.log("dldyddn imgPath is NULL")
             if (firstViewState === currentState)
             {
-                //1번째 image 가 current 이면
+                console.log("dldyddn firstViewState === currentState")
+                console.log("default image path : " , defaultImagePath)
                 nextImagePath = defaultImagePath
                 targetImage1.source = nextImagePath
             }
             else
             {
+                console.log("dldyddn firstViewState === nextState")
+                console.log("default image path : " , defaultImagePath)
                 nextImagePath = defaultImagePath
                 targetImage2.source = nextImagePath
             }
         }
         else
         {
+            console.log("dldyddn imgPath is valid")
             if (firstViewState === currentState)
             {
-                //1번째 image 가 current 이면
+                console.log("dldyddn firstViewState === currentState")
                 nextImagePath = imgPath
                 targetImage1.source = nextImagePath
             }
             else
             {
+                console.log("dldyddn firstViewState === nextState")
                 nextImagePath = imgPath
                 targetImage2.source = nextImagePath
             }
@@ -211,57 +195,41 @@ Item {
         //opacity
 
         animationTest()
-//        nameChanged()
+        //        nameChanged()
     }
     function animationTest()
     {
-        //        first -> secont
-        //        testTimer.running = true
+        console.log("animationTest() ===========")
         nameChanged()
-        target1Ani.start()
-        target2Ani.start()
 
+        if (target1Ani.running)
+        {
+//            target1Ani.complete()
+//            target1Ani.start()
+        }
+        else
+        {
+            target1Ani.start()
+        }
+
+        if (target2Ani.running)
+        {
+//            target2Ani.complete()
+//            target2Ani.start()
+        }
+        else
+        {
+            target2Ani.start()
+        }
     }
-
-    //    Timer
-    //    {
-    //        id: testTimer
-    //        interval: 100
-    //        running : false
-    //        repeat: true
-    //        onTriggered:{
-
-
-    //            if ( firstViewState === currentState)
-    //            {
-    //                targetImage1.opacity -= 0.1
-    //                targetImage2.opacity += 0.1
-    //                if (targetImage1.opacity < 0)
-    //                {
-    //                    stop()
-    //                    console.log("timer end")
-    //                }
-
-    //            }
-    //            else
-    //            {
-    //                targetImage1.opacity += 0.1
-    //                targetImage2.opacity -= 0.1
-    //                if (targetImage2.opacity < 0)
-    //                {
-    //                    stop()
-    //                    console.log("timer end")
-    //                }
-    //            }
-    //        }
-    //    }
     PropertyAnimation{
         id: target1Ani
         target:getCurrentImage()
         properties: "opacity"
         from: 1
         to:0
-        duration: 2000
+        duration: 500
+
     }
     PropertyAnimation{
         id: target2Ani
@@ -269,7 +237,14 @@ Item {
         properties: "opacity"
         from: 0
         to:1
-        duration: 2000
+        duration: 500
+        onStarted: {
+            console.log("target 2 start")
+        }
+        onStopped: {
+            console.log("target 2 stop")
+        }
+
     }
 
 
@@ -341,8 +316,6 @@ Item {
         defaultImagePath = ""
         currentImagePath = ""
         nextImagePath = ""
-        targetImage1.opacity = 1
-        targetImage2.opacity = 1
         firstViewState  = currentState
         secontViewState = nextState
     }

@@ -8,37 +8,8 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
 
-
-    //    Image{
-    //        id: targetImage
-    //        x:0
-    //        source:"test.png"
-    //        Component.onCompleted: {
-    //            console.log("width: " , targetImage.width)
-    //            console.log("height: " , targetImage.height)
-    //        }
-    //    }
-    //    Image{
-    //        id: targetImage2
-    //        x:300
-    //        source:"test.png"
-    //        width: 200
-    //        height: 200
-
-    //    }
-    //    Image{
-    //        id: targetImage3
-    //        x:600
-    //        source:"test.png"
-    //        width: 240
-    //        height: 400
-    //        fillMode:Image.PreserveAspectFit
-    //    }
     MyImage{
         id: testCode
-        //        defaultImagePath: "0.PNG"
-        //        currentImagePath: "1.PNG"
-        //        nextImagePath   : "1.PNG"
     }
 
     Rectangle{
@@ -49,14 +20,12 @@ ApplicationWindow {
         color: "red"
         Label{
             anchors.centerIn: parent
-            text: "set Default Image"
+            text: "set Default \nImage"
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 console.log("ccc")
-                //                testCode.defaultImagePath = "0.PNG"
-                testCode.initImage()
                 testCode.setDefaultImage( "default.PNG")
 
             }
@@ -70,13 +39,11 @@ ApplicationWindow {
         color: "red"
         Label{
             anchors.centerIn: parent
-            text: "Current Image 0"
+            text: "Current \nImage 0"
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                console.log("ccc")
-                //                testCode.defaultImagePath = "0.PNG"
                 testCode.setCurrentImage("0.PNG")
 
             }
@@ -87,17 +54,16 @@ ApplicationWindow {
         y: 400
         width: 100
         height: 50
-        color: "red"
+        color: "salmon"
         Label{
             anchors.centerIn: parent
-            text: "Next Image 1"
+            text: "Next \nImage 0"
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 console.log("ccc")
-                //                testCode.defaultImagePath = "0.PNG"
-                testCode.setNextImage("1.PNG")
+                testCode.setNextImage("0.PNG")
             }
         }
     }
@@ -109,15 +75,71 @@ ApplicationWindow {
         color: "red"
         Label{
             anchors.centerIn: parent
-            text: "Next Image 0"
+            text: "Next \nImage 1"
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                console.log("ccc")
-                //                testCode.defaultImagePath = "0.PNG"
-                testCode.setNextImage("0.PNG")
+                testCode.setNextImage("1.PNG")
 
+            }
+        }
+    }
+    Rectangle{
+        x: 700
+        y: 400
+        width: 100
+        height: 50
+        color: "red"
+        Label{
+            anchors.centerIn: parent
+            text: "Next \nImage 2"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                testCode.setNextImage("2.PNG")
+
+            }
+        }
+    }
+    Rectangle{
+        x: 800
+        y: 400
+        width: 100
+        height: 50
+        color: "red"
+        Label{
+            anchors.centerIn: parent
+            text: "Next \nImage empty"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                testCode.setNextImage()
+
+            }
+        }
+    }
+
+    Rectangle{
+        id: dynamicScreen
+        x: 400
+        width:100
+        height: 100
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                Qt.createComponent()
+                var newObject = Qt.createQmlObject('
+import QtQuick 2.0;
+Rectangle {
+color: "red";
+width: 20;
+height: 20;
+}',
+                parent, "dynamicSnippet1");
+                newObject.destroy(1000);
             }
         }
     }
